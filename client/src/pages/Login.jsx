@@ -28,7 +28,7 @@ export default function Login() {
 
       <div className="relative grid w-full max-w-6xl overflow-hidden rounded-[40px] border border-white/20 bg-white/10 shadow-2xl backdrop-blur-xl md:grid-cols-2">
         <div className="hidden flex-col justify-center bg-gradient-to-br from-blue-700/50 to-indigo-900/50 p-12 text-white md:flex">
-          <h1 className="mb-6 text-5xl font-bold">Task Admin</h1>
+          <h1 className="mb-6 text-5xl font-bold">Task Tracker</h1>
           <p className="mb-10 text-lg text-gray-200">
             Manage tasks, assign team members, and track progress in one place.
           </p>

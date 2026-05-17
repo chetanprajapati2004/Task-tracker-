@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api=axios.create({
- baseURL:'http://localhost:5000/api'
+ baseURL:'https://task-tracker-production-e9cf.up.railway.app/api'
 })
 
 api.interceptors.request.use(config=>{
