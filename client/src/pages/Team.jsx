@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Navigate, useOutletContext } from "react-router-dom";
-import { Mail, Radio, Shield, UserPlus, Users } from "lucide-react";
+import { Mail, Shield, UserPlus, Users } from "lucide-react";
 
 import api from "../services/api";
 import useRealtimeTasks from "../hooks/useRealtimeTasks";
@@ -11,11 +11,13 @@ export default function Team() {
   const [saving, setSaving] = useState(false);
   const { tasks, lastUpdated } = useRealtimeTasks();
 
+  const adminTasks = useMemo(() => {
+    return [];
+  }, []);
+
   if (user?.role !== "admin") {
     return <Navigate to="/dashboard" replace />;
   }
-
-  const adminTasks = tasks.filter((task) => task.createdBy?.id === user?.id);
 
   const addMember = async () => {
     const trimmedEmail = email.trim();
@@ -34,18 +36,7 @@ export default function Team() {
       await refreshProfile();
     } catch (err) {
       console.log(err);
-      const status = err?.response?.status;
-      const message =
-        err?.response?.data?.msg ||
-        err?.response?.data?.message ||
-        (status === 401
-          ? "Your session expired. Please login again."
-          : status === 403
-            ? "Only the admin account can add users."
-            : status === 404
-              ? "Backend route not found. Restart the server on port 5000."
-              : "Unable to add member");
-      alert(message);
+      alert(err?.response?.data?.msg || "Unable to add member");
     } finally {
       setSaving(false);
     }
@@ -53,19 +44,13 @@ export default function Team() {
 
   return (
     <div>
-      <div className="mb-8 animate-fade-up">
+      <div className="mb-8">
         <h1 className="text-3xl font-bold">Admin Panel</h1>
         <p className="text-gray-500">Manage members from one simple admin-only space</p>
-        <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-medium text-emerald-700">
-          <Radio size={14} className="animate-pulse" />
-          {lastUpdated ? `Live board sync • ${lastUpdated.toLocaleTimeString()}` : "Syncing..."}
-        </div>
       </div>
 
       <div className="mb-8 grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.9fr)]">
-        <div className="task-hero animate-fade-up">
-          <div className="task-orb task-orb-left" />
-          <div className="task-orb task-orb-right" />
+        <div className="rounded-[32px] bg-[linear-gradient(135deg,#0f172a_0%,#1d4ed8_55%,#38bdf8_100%)] p-6 text-white shadow-xl shadow-blue-200/70">
           <div className="mb-6 flex items-start justify-between gap-4">
             <div>
               <p className="text-sm uppercase tracking-[0.25em] text-blue-100">
@@ -87,11 +72,11 @@ export default function Team() {
               <p className="text-sm text-blue-100">Members</p>
               <h3 className="mt-2 text-2xl font-bold">{members.length || 1}</h3>
             </div>
-            
+
           </div>
         </div>
 
-        <div className="panel-card animate-fade-up">
+        <div className="rounded-[32px] border border-white/70 bg-white/90 p-6 shadow-lg shadow-slate-200/60 backdrop-blur">
           <div className="mb-5 flex items-center gap-3">
             <UserPlus className="text-blue-600" size={20} />
             <div>
@@ -129,7 +114,7 @@ export default function Team() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
-        <div className="panel-card animate-fade-up">
+        <div className="rounded-[32px] bg-white p-6 shadow-lg shadow-slate-200/70">
           <h2 className="mb-6 text-xl font-bold">Users</h2>
 
           <div className="space-y-4">
@@ -154,7 +139,7 @@ export default function Team() {
           </div>
         </div>
 
-        <div className="panel-card animate-fade-up">
+        <div className="rounded-[32px] bg-white p-6 shadow-lg shadow-slate-200/70">
           <div className="mb-5 flex items-center gap-3">
             <Users className="text-blue-600" size={20} />
             <h2 className="text-xl font-bold">Admin Notes</h2>
@@ -175,33 +160,6 @@ export default function Team() {
               Admin tasks are the tasks created from the admin account in the dashboard.
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="panel-card animate-fade-up">
-        <h2 className="mb-6 text-xl font-bold">Admin Tasks</h2>
-
-        <div className="space-y-4">
-          {adminTasks.length === 0 ? (
-            <p className="text-sm text-slate-500">No admin-created tasks yet.</p>
-          ) : (
-            adminTasks.map((task) => (
-              <div key={task._id} className="rounded-2xl border border-slate-200 p-4">
-                <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <h3 className="font-semibold text-slate-900">{task.title}</h3>
-                    <p className="text-sm text-slate-500">
-                      {task.assignedTo ? `Assigned to ${task.assignedTo.name}` : "Unassigned"}
-                    </p>
-                  </div>
-
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700">
-                    {task.status}
-                  </span>
-                </div>
-              </div>
-            ))
-          )}
         </div>
       </div>
     </div>

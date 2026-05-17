@@ -1,421 +1,88 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ClipboardList, ShieldCheck, TrendingUp } from "lucide-react";
+
 import api from "../services/api";
 
-import {
-  useNavigate,
-  Link
-} from "react-router-dom";
-
-import {
-  Wallet,
-  ShieldCheck,
-  TrendingUp
-} from "lucide-react";
-
-export default function Login(){
-
-const[email,setEmail]=
-useState("");
-
-const[password,setPassword]=
-useState("");
-
-const navigate=
-useNavigate();
-
-
-const login=
-async()=>{
-
-try{
-
-const res=
-await api.post(
-"/auth/login",
-{
-email,
-password
-}
-);
-
-localStorage.setItem(
-"token",
-res.data.token
-);
-
-localStorage.setItem(
-"user",
-JSON.stringify(
-res.data.user
-)
-);
-
-navigate(
-"/dashboard"
-);
-
-}
-
-catch(err){
-
-console.log(err);
-
-alert(
-"Login failed"
-);
-
-}
-
-};
-
-
-return(
-
-<div className="
-
-relative
-min-h-screen
-
-overflow-hidden
-
-bg-gradient-to-br
-from-slate-950
-via-blue-900
-to-indigo-950
-
-flex
-justify-center
-items-center
-
-p-6
-
-">
-
-
-<div className="
-absolute
-
-w-96
-h-96
-
-bg-blue-500/20
-
-blur-3xl
-
-rounded-full
-
-top-10
-left-10
-"/>
-
-
-<div className="
-absolute
-
-w-80
-h-80
-
-bg-purple-500/20
-
-blur-3xl
-
-rounded-full
-
-bottom-0
-right-0
-"/>
-
-
-<div className="
-
-relative
-
-grid
-grid-cols-1
-md:grid-cols-2
-
-max-w-6xl
-w-full
-
-rounded-[40px]
-
-overflow-hidden
-
-backdrop-blur-xl
-
-bg-white/10
-
-border
-border-white/20
-
-shadow-2xl
-
-">
-
-<div className="
-hidden
-md:flex
-
-flex-col
-justify-center
-
-text-white
-
-p-12
-
-bg-gradient-to-br
-from-blue-700/50
-to-indigo-900/50
-">
-
-<h1 className="
-text-5xl
-font-bold
-mb-6
-">
-
-Expense Tracker
-
-</h1>
-
-<p className="
-text-lg
-text-gray-200
-mb-10
-">
-
-Manage spending, track savings and stay in control.
-
-</p>
-
-
-<div className="
-space-y-6
-">
-
-<div className="
-flex
-items-center
-gap-4
-">
-
-<Wallet/>
-
-<p>
-
-Track all transactions
-
-</p>
-
-</div>
-
-
-<div className="
-flex
-items-center
-gap-4
-">
-
-<TrendingUp/>
-
-<p>
-
-Monitor savings growth
-
-</p>
-
-</div>
-
-
-<div className="
-flex
-items-center
-gap-4
-">
-
-<ShieldCheck/>
-
-<p>
-
-Secure account access
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<div className="
-bg-white
-
-p-10
-md:p-12
-">
-
-<div className="
-text-center
-mb-8
-">
-
-<h1 className="
-text-4xl
-font-bold
-mb-2
-">
-
-Welcome Back 👋
-
-</h1>
-
-<p className="
-text-gray-500
-">
-
-Login to continue
-
-</p>
-
-</div>
-
-
-<input
-
-placeholder="Email"
-
-className="
-w-full
-
-border
-border-gray-300
-
-rounded-2xl
-
-p-4
-
-mb-5
-
-outline-none
-
-focus:border-blue-500
-focus:ring-4
-focus:ring-blue-100
-
-transition
-"
-
-onChange={(e)=>
-setEmail(
-e.target.value
-)}
-
-/>
-
-
-
-<input
-
-type="password"
-
-placeholder="Password"
-
-className="
-w-full
-
-border
-border-gray-300
-
-rounded-2xl
-
-p-4
-
-mb-6
-
-outline-none
-
-focus:border-blue-500
-focus:ring-4
-focus:ring-blue-100
-
-transition
-"
-
-onChange={(e)=>
-setPassword(
-e.target.value
-)}
-
-
-
-/>
-
-
-<button
-
-onClick={login}
-
-className="
-w-full
-
-bg-gradient-to-r
-from-blue-600
-to-indigo-600
-
-hover:scale-[1.02]
-
-text-white
-
-font-semibold
-
-rounded-2xl
-
-p-4
-
-transition
-"
-
->
-
-Login
-
-</button>
-
-
-<p className="
-text-center
-mt-6
-text-gray-500
-">
-
-No account?
-
-<Link
-
-to="/register"
-
-className="
-ml-2
-font-semibold
-text-blue-600
-"
-
->
-
-Create Account
-
-</Link>
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-)
-
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const login = async () => {
+    try {
+      const res = await api.post("/auth/login", { email, password });
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      navigate("/dashboard");
+    } catch (err) {
+      console.log(err);
+      alert(err?.response?.data?.msg || "Login failed");
+    }
+  };
+
+  return (
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-blue-900 to-indigo-950 p-6">
+      <div className="absolute left-10 top-10 h-96 w-96 rounded-full bg-blue-500/20 blur-3xl" />
+      <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-cyan-500/20 blur-3xl" />
+
+      <div className="relative grid w-full max-w-6xl overflow-hidden rounded-[40px] border border-white/20 bg-white/10 shadow-2xl backdrop-blur-xl md:grid-cols-2">
+        <div className="hidden flex-col justify-center bg-gradient-to-br from-blue-700/50 to-indigo-900/50 p-12 text-white md:flex">
+          <h1 className="mb-6 text-5xl font-bold">Task Admin</h1>
+          <p className="mb-10 text-lg text-gray-200">
+            Manage tasks, assign team members, and track progress in one place.
+          </p>
+
+          <div className="space-y-6">
+            <div className="flex items-center gap-4">
+              <ClipboardList />
+              <p>Track task status live</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <TrendingUp />
+              <p>Monitor team progress</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <ShieldCheck />
+              <p>Role-based admin and user access</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white p-10 md:p-12">
+          <div className="mb-8 text-center">
+            <h1 className="mb-2 text-4xl font-bold">Welcome Back</h1>
+            <p className="text-gray-500">Login to continue</p>
+          </div>
+
+          <input
+            placeholder="Email"
+            className="mb-5 w-full rounded-2xl border border-gray-300 p-4 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            className="mb-6 w-full rounded-2xl border border-gray-300 p-4 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button
+            onClick={login}
+            className="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-4 font-semibold text-white transition hover:scale-[1.02]"
+          >
+            Login
+          </button>
+
+          <p className="mt-6 text-center text-gray-500">
+            No account?
+            <Link to="/register" className="ml-2 font-semibold text-blue-600">
+              Create Account
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }

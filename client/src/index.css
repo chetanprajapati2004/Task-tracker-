@@ -1,1 +1,158 @@
 @import "tailwindcss";
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.14), transparent 24%),
+    #f8fbff;
+  color: #0f172a;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.task-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 54%, #0ea5e9 100%);
+  padding: 1.75rem;
+  color: white;
+  box-shadow: 0 28px 70px rgba(14, 116, 244, 0.18);
+}
+
+.panel-card {
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 1.5rem;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(14px);
+}
+
+.task-card {
+  border-radius: 28px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1.25rem;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.06);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+.task-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 50px rgba(15, 23, 42, 0.1);
+  border-color: rgba(96, 165, 250, 0.55);
+}
+
+.glass-card {
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 1rem;
+  backdrop-filter: blur(14px);
+}
+
+.primary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 18px;
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
+  padding: 0.9rem 1.5rem;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 16px 35px rgba(37, 99, 235, 0.28);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.primary-action:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 22px 45px rgba(37, 99, 235, 0.34);
+  filter: saturate(1.08);
+}
+
+.secondary-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 18px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  padding: 0.85rem 1rem;
+  color: #334155;
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.secondary-action:hover {
+  transform: translateY(-1px);
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.task-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(12px);
+  opacity: 0.34;
+  animation: floatOrb 10s ease-in-out infinite;
+}
+
+.task-orb-left {
+  left: -24px;
+  top: -18px;
+  height: 9rem;
+  width: 9rem;
+  background: rgba(125, 211, 252, 0.48);
+}
+
+.task-orb-right {
+  right: -28px;
+  bottom: -34px;
+  height: 10rem;
+  width: 10rem;
+  background: rgba(253, 224, 71, 0.28);
+  animation-delay: -4s;
+}
+
+.animate-fade-up {
+  animation: fadeUp 520ms ease both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatOrb {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}

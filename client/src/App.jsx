@@ -9,9 +9,10 @@ import DashboardLayout from "./layouts/DashboardLayout";
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
-const Transactions = lazy(() => import("./pages/Transactions"));
+const Tasks = lazy(() => import("./pages/Transactions"));
 const Reports = lazy(() => import("./pages/Reports"));
-const Savings = lazy(() => import("./pages/Savings"));
+const Goals = lazy(() => import("./pages/Savings"));
+const Team = lazy(() => import("./pages/Team"));
 
 export default function App() {
   return (
@@ -26,9 +27,10 @@ export default function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/transactions" element={<Transactions />} />
+              <Route path="/tasks" element={<Tasks />} />
               <Route path="/reports" element={<Reports />} />
-              <Route path="/savings" element={<Savings />} />
+              <Route path="/goals" element={<Goals />} />
+              <Route path="/team" element={<Team />} />
             </Route>
           </Route>
         </Routes>
